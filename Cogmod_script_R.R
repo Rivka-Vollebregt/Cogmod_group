@@ -108,3 +108,21 @@ ggplot(data = bothdfs, mapping = aes(x = steer2.x, y = steer_acrosspart.x, colou
 # People in the steering focused condition have no lane deviation increase between digit 6-7 which means that they did take a break from dialing to focus on steering. 
 # In the dialing focused condition, the lane deviation did increase a lot between digit 6-7 which means that the average participant did not take a break from dialing. 
 
+#2B
+library(reshape2)
+allData <- as.data.frame(matrix(nrow = 20, ncol =61))
+for (x in 1:20)
+  {
+    simulate <- rnorm(61, 0.0, 0.13)
+    simulate <- cumsum(simulate)
+    allData[x, ] <- simulate
+}
+
+transposedData <- data.frame(t(allData))
+transposedData$ID <- seq(0,3000, 50)
+
+transposedData <- melt(transposedData, id.vars="ID")
+
+simulatePlot <- ggplot(transposedData, aes(x=as.numeric(ID), y= value, colour = variable)) + 
+  xlab('Trial Time(ms)') + ylab('Lateral Position (m)') + theme(legend.position = "none") + geom_line()
+simulatePlot
