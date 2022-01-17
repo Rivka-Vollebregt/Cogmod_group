@@ -109,6 +109,20 @@ g1 <- g1 + geom_area(fill="green", alpha=.4)  + xlab("height") + ylab("P") + the
 
 g1
 
+#Adjective function
+adjective <- sapply(1:250, function(x){use.adjective(x, scale.points, 50, 0, function(x) {dnorm(x, 180, 10)}, function(x) {pnorm(x, 180, 10)})})
+adjective.data <- data.frame()
+adjective.data <- as.data.frame(cbind(scale.points, adjective))
+names(adjective.data)[names(adjective.data) == "scale.points"] <- "x"
+names(adjective.data)[names(adjective.data) == "adjective"] <- "y"
+# find the right degree
+max.degree <- max(adjective.data$y)
+degree.value <- adjective.data$x[adjective.data$y == max.degree]
+# PLOT
+g2 <- ggplot(adjective.data, aes(x=x, y=y)) 
+g2 <- g2 + geom_area(fill="blue", alpha=.4)  + xlab("height") + ylab("probability")  + ggtitle("Use adjective")+ theme_gray(20) 
+g2
+
 # Task 2:
 # Explore expected.success and use.adjective for various prior distribution functions.
 # For this, assume that coverage.parameter $c$ is at 0 and lambda is at 50.
