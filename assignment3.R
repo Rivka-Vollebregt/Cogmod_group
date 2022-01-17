@@ -113,6 +113,55 @@ g1
 # Explore expected.success and use.adjective for various prior distribution functions.
 # For this, assume that coverage.parameter $c$ is at 0 and lambda is at 50.
 
+###IQ
+scale.points <- c(50:150)
+## expected succes
+iq.Expected_succes <- sapply(50:150, function(x){expected.success(x, scale.points, function(x) {dnorm(x, 100, 15)}, function(x) {pnorm(x, 100, 15)})})
+iq.Expected_succes.data <- data.frame()
+iq.Expected_succes.data <- as.data.frame(cbind(scale.points, iq.Expected_succes))
+names(iq.Expected_succes.data)[names(iq.Expected_succes.data) == "scale.points"] <- "x"
+names(iq.Expected_succes.data)[names(iq.Expected_succes.data) == "iq.Expected_succes"] <- "y"
+iq.Expected_succes.max.degree <- max(iq.Expected_succes.data$y) #0.02960823
+iq.Expected_succes.degree.value <- iq.Expected_succes.data$x[iq.Expected_succes.data$y == iq.Expected_succes.max.degree]
+ggplot(iq.Expected_succes.data, aes(x = x, y = y)) + geom_area(fill="steelblue", alpha=.4)  + xlab("IQ") + ylab("P") + theme_gray(20)
+
+
+# probability function
+iq.adjective <- sapply(50:150, function(x){use.adjective(x, scale.points, 50, 0, function(x) {dnorm(x, 100, 15)}, function(x) {pnorm(x, 100, 15)})})
+iq.adjective.data <- data.frame()
+iq.adjective.data <- as.data.frame(cbind(scale.points, iq.adjective))
+names(iq.adjective.data)[names(iq.adjective.data) == "scale.points"] <- "x"
+names(iq.adjective.data)[names(iq.adjective.data) == "iq.adjective"] <- "y"
+iq.adjective.max.degree <- max(iq.adjective.data$y)
+iq.adjective.degree.value <- iq.adjective.data$x[iq.adjective.data$y == iq.adjective.max.degree]
+ggplot(iq.adjective.data, aes(x = x, y = y)) + geom_area(fill="steelblue", alpha=.4)  + xlab("IQ") + ylab("P") + theme_gray(20)
+
+
+###Waiting times
+scale.points <- c(1:30)
+## expected succes
+wt.Expected_succes <- sapply(1:30, function(x){expected.success(x, scale.points, function(x) {dgamma(x, 2,2)}, function(x) {pgamma(x, 2,2)})})
+wt.Expected_succes.data <- data.frame()
+wt.Expected_succes.data <- as.data.frame(cbind(scale.points, wt.Expected_succes))
+names(wt.Expected_succes.data)[names(wt.Expected_succes.data) == "scale.points"] <- "x"
+names(wt.Expected_succes.data)[names(wt.Expected_succes.data) == "wt.Expected_succes"] <- "y"
+wt.Expected_succes.max.degree <- max(wt.Expected_succes.data$y)
+wt.Expected_succes.degree.value <- wt.Expected_succes.data$x[wt.Expected_succes.data$y == wt.Expected_succes.max.degree]
+ggplot(wt.Expected_succes.data, aes(x = x, y = y)) + geom_area(fill="green", alpha=.4)  + xlab("wt") + ylab("Probability") + ggtitle("Threshold probability")+ theme_gray(20)
+
+# probability function
+wt.adjective <- sapply(1:30, function(x){use.adjective(x, scale.points, 50, 0, function(x) {dgamma(x, 2,2)}, function(x) {pgamma(x, 2,2)})})
+wt.adjective.data <- data.frame()
+wt.adjective.data <- as.data.frame(cbind(scale.points, wt.adjective))
+names(wt.adjective.data)[names(wt.adjective.data) == "scale.points"] <- "x"
+names(wt.adjective.data)[names(wt.adjective.data) == "wt.adjective"] <- "y"
+wt.adjective.max.degree <- max(wt.adjective.data$y)
+wt.adjective.degree.value <- wt.adjective.data$x[wt.adjective.data$y == wt.adjective.max.degree]
+ggplot(wt.adjective.data, aes(x = x, y = y)) + geom_area(fill="blue", alpha=.4)  + xlab("wt") + ylab("Probability")+ ggtitle("Adjective function") + theme_gray(20)
+
+
+###End written code 2
+
 data.adjective <- read.csv(file="adjective-data.csv", header=TRUE)
 
 gaussian.dist <-   c(1,2,3,4,5,6,5,4,3,2,1,0,0,0)
